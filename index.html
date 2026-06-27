@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulasi Sistem Parkir — Stack & Queue (V2)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <h1>Simulasi Sistem Parkir Kendaraan (Versi 2)</h1>
+  <p>
+    <span class="badge badge-stack">Stack (LIFO)</span> digunakan untuk area parkir — kendaraan terakhir masuk, pertama keluar.<br>
+    <span class="badge badge-queue">Queue (FIFO)</span> digunakan untuk antrian masuk — kendaraan pertama antri, pertama dilayani.
+  </p>
+</header>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="layout">
+
+  <!-- Statistik -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num" id="stat-slot">0/10</div>
+      <div class="stat-label">Slot Terisi / Total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-antrian">0</div>
+      <div class="stat-label">Kendaraan Antri</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-masuk">0</div>
+      <div class="stat-label">Total Masuk</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-keluar">0</div>
+      <div class="stat-label">Total Keluar</div>
+    </div>
+  </div>
+
+  <!-- Panel Kontrol -->
+  <div class="card font-panel">
+    <div class="card-title">🎮 Panel Kendali Simulasi</div>
+    <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+      <input type="text" id="input-plat" placeholder="Plat Nomor (Contoh: D 1234 ABC)" style="flex:1; min-width:180px;" />
+      <select id="input-jenis" style="width:100px;">
+        <option value="Mobil">Mobil 🚗</option>
+        <option value="Motor">Motor 🛵</option>
+        <option value="Truk">Truk 🚛</option>
+      </select>
+      <button onclick="tambahAntrian()" class="btn-primary">➕ Masuk Antrian</button>
+      <button onclick="prosesAntrian()" class="btn-success">➡️ Parkirkan Kendaraan</button>
+      <button onclick="keluarKendaraan()" class="btn-danger">🚪 Keluar Teratas</button>
+      <button onclick="demoOtomatis()" class="btn-warning">⚡ Demo Otomatis</button>
+    </div>
+  </div>
+
+  <!-- Visualisasi Grid Parkir -->
+  <div class="card">
+    <div class="card-title">🎛️ Tata Letak Area Parkir Real-Time (Kapasitas Maksimal: 10)</div>
+    <div class="slot-grid" id="slot-grid"></div>
+    
+    <div style="display:flex; gap:15px; margin-top:15px; font-size:12px; flex-wrap:wrap;">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--surface2);border:0.5px solid var(--border2);"></div>
+        Kosong (P)
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--surface);border:0.5px solid var(--border2);"></div>
+        Terisi
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--purple50);border:0.5px solid var(--purple600);"></div>
+        Top Stack (LIFO)
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--red50);border:0.5px solid var(--red600);"></div>
+        Displaced (Dipindahkan Sementara)
+      </div>
+    </div>
+    <small style="color:var(--text3); display:block; margin-top:8px;">💡 <em>Tips: Klik langsung pada kotak kendaraan yang berada di tengah tumpukan untuk menguji Displacement Algorithm.</em></small>
+  </div>
+
+  <!-- Visualisasi Stack & Queue berdampingan -->
+  <div class="section-row">
+
+    <div class="card">
+      <div class="card-title">
+        <span class="badge badge-stack">Stack</span> Urutan Parkir (LIFO)
+      </div>
+      <div class="struct-visual">
+        <div class="struct-label">← TOP (keluar pertama)</div>
+        <div class="struct-items" id="stack-visual"></div>
+        <div class="struct-label" style="margin-top:6px;">← BOTTOM</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span class="badge badge-queue">Queue</span> Antrian Masuk (FIFO)
+      </div>
+      <div class="struct-visual">
+        <div class="struct-label">FRONT (dilayani pertama) →</div>
+        <div class="struct-items" id="queue-visual"></div>
+        <div class="struct-label" style="margin-top:6px;">← REAR (masuk terakhir)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Log Aktivitas -->
+  <div class="card log-box">
+    <div class="card-title" style="justify-content:space-between; display:flex;">
+      <span>📋 Log Aktivitas</span>
+      <button onclick="clearLog()" style="font-size:11px; padding:4px 10px;">Hapus Log</button>
+    </div>
+    <div class="log-list" id="log-list">
+      <div class="log-item info"><span class="log-time">00:00:00</span><span>Sistem simulasi parkir siap digunakan.</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2026 - Tugas Besar Struktur Data UTB. Kelas TIF RP 25 F.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
